@@ -1,0 +1,14 @@
+
+INDEX!
+<!--
+{% if tasks_list %}
+    <ul>
+    {% for task in tasks_list %}
+	    <li><a href="{% url 'V0:detail' task.id %}">{{ task.title }}</a></li>
+    
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Tasks are available.</p>
+{% endif %}
+-->

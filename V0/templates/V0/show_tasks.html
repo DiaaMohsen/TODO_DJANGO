@@ -1,0 +1,7 @@
+
+
+<ul>
+{% for task in ownr.task_set.all %}
+    <li>{{ task.title }} -- {{ task.desc }}  -- {{ task.done }} </li>
+{% endfor %}
+</ul>
