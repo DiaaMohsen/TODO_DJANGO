@@ -1,1 +1,16 @@
-SIGNUP
+<head>
+</head>
+<body>
+	<form action = "{% url 'V0:validate_signup' %}"  method="post" > <!--"/V0/show_tasks/"-->
+		{% csrf_token %}
+		username: 
+		<input type="text" name="username" value="abc" /><br />
+		password:
+		<input type="password" name="password" value="" /><br />
+		<p></p>
+		<input type="submit" value="Sign me up" /> 
+		
+		 
+	</form>
+</body>
+</html>

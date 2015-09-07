@@ -19,10 +19,14 @@ from django.utils import timezone
 def signup(request):
 	return render(request, 'V0/signup.html')
 
+
+def validate_signup(request): # 34an asht3'l bs dlwa2ti
+	return HttpResponseRedirect(reverse('V0:login'))
+#	return render(request, 'V0/login.html')
+
 def login(request):
 	return render(request, 'V0/login.html')
 #	return HttpResponse('LOGIN?')
-
 
 
 def show_tasks(request):
