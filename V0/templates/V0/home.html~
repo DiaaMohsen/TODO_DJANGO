@@ -1,7 +1,6 @@
-<h2> HI {{user.uname}} </h2>
+<h2> HI {{user.username}} </h2>
 
 {% for task in ownr.task_set.all %}
     <li>{{ task.title }} -- {{ task.desc }}  -- {{ task.done }} </li>
 {% endfor %}
 <p>Click <a href="{% url 'V0:logout' %}"> here </a> to logout </p>
-

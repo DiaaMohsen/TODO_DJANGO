@@ -32,17 +32,19 @@ def auth_login(request):
 	uname = request.POST['username']
 	pword = request.POST['password']
 	user = auth.authenticate(username=uname, password=pword)
+#	return HttpResponse(user.username)
 	if user :
 		auth.login(request, user)
 #		return HttpResponseRedirect('V0:home')
 		return HttpResponseRedirect(reverse('V0:home'))
+
 	else:
 		return HttpResponseRedirect(reverse('V0:invalid_login'))
 #		return HttpResponseRedirect('V0:invalid_login')
 
 
 def home(request):
-	user = Owner.objects.get(uname=request.user.username)
+	user = User.objects.get(username=request.user.username)
 	context = {'user': user}
 #	return render(request, 'V0/show_tasks.html', context)	
 	return render_to_response('V0/home.html', context)#{'username': request.user.username})
@@ -64,11 +66,20 @@ def signup_req(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			form.save()
-			owner = Owner(uname=form.cleaned_data['username'], pword=form.cleaned_data['password1'])
-			owner.save()
-
+			nuser = User.objects.get(form.cleaned_data['username'])
+			nuser.user_permissions = [	Permission.objects.get(codename='add_task'),
+								Permission.objects.get(codename='change_task'),
+								Permission.objects.get(codename='delete_task')
+							]
+			nuser.save()
+			form.cleaned_data['user_permissions'] = [	Permission.objects.get(codename='add_task'),
+										Permission.objects.get(codename='change_task'),
+										Permission.objects.get(codename='delete_task')
+									]
+#			form.save()
 			return HttpResponseRedirect(reverse('V0:signup_success'))
-
+#		else:
+#			print 'here'#form.cleaned_data['username']
 	args = {}
 	args.update(csrf(request))
 	args['form'] = UserCreationForm()
@@ -109,4 +120,3 @@ def auth_signup(request):
 							]
 	nuser.save()
 	return HttpResponseRedirect(reverse('V0:login'))
-
