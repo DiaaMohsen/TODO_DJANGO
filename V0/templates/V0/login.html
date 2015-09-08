@@ -2,16 +2,16 @@
 	<title>Log in</title>
 </head>
 <body>
-	<form action = "{% url 'V0:validate_login' %}"  method="post" > <!--"/V0/show_tasks/"-->
+	<form action = "{% url 'V0:auth_login' %}"  method="post" > <!--"/V0/show_tasks/"-->
 		{% csrf_token %}
 		username: 
 		<input type="text" name="username" value="abc" /><br />
 		password:
-		<input type="password" name="password" value="" /><br />
+		<input type="password" name="password" value="abc" /><br />
 		<p></p>
 		<input type="submit" value="Log In" /> 
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		 <a href="{% url 'V0:signup' %}"> 		Sign-up</a>
+	<!--	 <a href="{% url 'V0:invalid_login' %}"> 		Sign-up</a> -->
 	</form>
 </body>
 </html>
