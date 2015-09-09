@@ -28,6 +28,8 @@ def login(request):
 	return render_to_response('V0/login.html',c)
 
 
+
+
 def auth_login(request):
 	uname = request.POST['username']
 	pword = request.POST['password']
@@ -42,7 +44,7 @@ def auth_login(request):
 
 
 def home(request):
-	user = Owner.objects.get(uname=request.user.username)
+	user = User.objects.get(username=request.user.username)
 	context = {'user': user}
 #	return render(request, 'V0/show_tasks.html', context)	
 	return render_to_response('V0/home.html', context)#{'username': request.user.username})
@@ -64,11 +66,9 @@ def signup_req(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			form.save()
-			owner = Owner(uname=form.cleaned_data['username'], pword=form.cleaned_data['password1'])
-			owner.save()
-
+#			owner = Owner(uname=form.cleaned_data['username'], pword=form.cleaned_data['password1'])
+#			owner.save()
 			return HttpResponseRedirect(reverse('V0:signup_success'))
-
 	args = {}
 	args.update(csrf(request))
 	args['form'] = UserCreationForm()
@@ -77,11 +77,37 @@ def signup_req(request):
 
 def signup_success(request):
 	return render_to_response('V0/signup_success.html')
-
-
 def invalid_signup(request): # to be done later
 	return HttpResponse('this username is exist already')
 
+def add_task(request):
+	print request.user.username
+	c = {}
+	c.update(csrf(request))
+	return render_to_response('V0/add_task.html', c)
+
+def add_task_to_tasks(request):
+	title = request.POST['title']
+	desc = request.POST['desc']
+	done = False
+
+
+	print request.user.username, title
+#	task = Task(request.user,title,desc,done)
+	task = Task(owner=request.user,title=title,desc=desc,done=done)
+	task.save()
+
+	return HttpResponseRedirect(reverse('V0:home'))
+
+
+def delete_dtask(request):
+#	print request.GET.keys() #dir(request.GET)
+#	return HttpResponse(request.POST['selected_task'])
+	return HttpResponse('delete')
+
+
+def edit_task(request):
+	return HttpResponse(selected_task)
 
 
 

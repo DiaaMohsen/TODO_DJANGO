@@ -1,0 +1,15 @@
+
+	<h2>Add New Task</h2>
+
+	<form action = "{% url 'V0:add_task_to_tasks' %}"  method="post" > <!--"/V0/show_tasks/"-->
+		{% csrf_token %}
+		title: 
+		<input type="text" name="title" value="abc" /><br />
+		desc:
+		<input type="text" name="desc" value="abc" /><br />
+		<p></p>
+		<input type="submit" value="add" /> 
+    	<a href="{% url 'V0:home' %}"> 		Cancel</a> 
+<!--    	<a href="{% url 'V0:sign_up' %}"> 		Sign-up</a> -->
+
+	</form>

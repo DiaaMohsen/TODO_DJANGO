@@ -1,7 +1,25 @@
-<h2> HI {{user.uname}} </h2>
 
-{% for task in ownr.task_set.all %}
+<h2> HI {{ user.username  }} </h2>
+<h2> no. of tasks {{ user.tasks.all | length  }} </h2>
+
+<!--
+{% for task in user.tasks.all %}
     <li>{{ task.title }} -- {{ task.desc }}  -- {{ task.done }} </li>
 {% endfor %}
-<p>Click <a href="{% url 'V0:logout' %}"> here </a> to logout </p>
+-->
+
+<B> list of tasks:</B> <BR>
+
+
+	<SELECT NAME="selected_item" SIZE="4" MULTIPLE >
+	{% for task in user.tasks.all %}
+		<OPTION SELECTED> {{ task.title }}
+	{% endfor %}
+	</SELECT>
+
+	<p>      <a href="{% url 'V0:delete_dtask' %}"> delete_task </a></p>
+
+	<p>Click <a href="{% url 'V0:add_task' %}"> add new task </a></p>
+	<p>Click <a href="{% url 'V0:logout' %}"> here </a> to logout </p>
+
 

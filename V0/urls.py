@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 
+
 	url(r'^$', views.login, name='login'),
 	url(r'^auth_login$', views.auth_login, name='auth_login'),
 	url(r'^logout$', views.logout, name='logout'),
@@ -17,11 +18,11 @@ urlpatterns = [
 	url(r'^signup_success$', views.signup_success, name='signup_success'),
 	url(r'^signup_req$', views.signup_req, name='signup_req'),
 
+
+
+#	features
+	url(r'^add_task$', views.add_task, name='add_task'),
+	url(r'^add_task_to_tasks$', views.add_task_to_tasks, name='add_task_to_tasks'),
+	url(r'^delete_dtask$', views.delete_dtask, name='delete_dtask'),
+	url(r'^edit_task$', views.edit_task, name='edit_task')
 ]
-'''
-    url(r'^show_tasks/$', views.show_tasks, name='show_tasks'),
-	url(r'^signup/$', views.signup, name='signup'),
-	url(r'^validate_signup/$', views.validate_signup, name='validate_signup'),
-	url(r'^validate_login/$', views.validate_login, name='validate_login'),
-	#url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
-'''
