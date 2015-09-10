@@ -1,0 +1,22 @@
+
+	<h2> Task: {{task.title}} </h2>
+
+	<form action = "{% url 'V0:apply_edit' %}"  method="post" > <!--"/V0/show_tasks/"-->
+		{% csrf_token %}
+
+		<input type="hidden" name="task_name" value="abc">
+		title:
+		<input type="text" name="title" value={{"task.title"}} /><br />
+		desc:
+		<input type="textarea" name="desc" value="abc" /><br />
+		status:
+		<select name='status'>
+			<option value='True'> Done</option>
+			<option value='False'> Not yet</option>
+		</select>
+		<p></p>
+		<input type="submit" value="add" />
+    	<a href="{% url 'V0:home' %}"> 		Cancel</a> 
+<!--    	<a href="{% url 'V0:sign_up' %}"> 		Sign-up</a> -->
+
+	</form>

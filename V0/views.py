@@ -4,7 +4,8 @@ from django.http import Http404
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
+
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.views import generic
@@ -27,9 +28,6 @@ def login(request):
 	c.update(csrf(request))
 	return render_to_response('V0/login.html',c)
 
-
-
-
 def auth_login(request):
 	uname = request.POST['username']
 	pword = request.POST['password']
@@ -46,15 +44,17 @@ def auth_login(request):
 def home(request):
 	user = User.objects.get(username=request.user.username)
 	context = {'user': user}
-#	return render(request, 'V0/show_tasks.html', context)	
-	return render_to_response('V0/home.html', context)#{'username': request.user.username})
+	return render_to_response('V0/home.html', context,
+	context_instance=RequestContext(request))
+
 
 def invalid_login(request):
 	return render_to_response('V0/invalid_login.html')#, {'message': 'username or password not correct'})
 
 def logout(request):
 	auth.logout(request)
-	return render_to_response('V0/logout.html')
+	return HttpResponseRedirect(reverse('V0:login'))
+
 
 def sign_up(request):
 	c = {}
@@ -66,13 +66,10 @@ def signup_req(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			form.save()
-#			owner = Owner(uname=form.cleaned_data['username'], pword=form.cleaned_data['password1'])
-#			owner.save()
 			return HttpResponseRedirect(reverse('V0:signup_success'))
 	args = {}
 	args.update(csrf(request))
 	args['form'] = UserCreationForm()
-#	return HttpResponse('this username is exist already')
 	return render_to_response('V0/signup.html', args)
 
 def signup_success(request):
@@ -81,7 +78,6 @@ def invalid_signup(request): # to be done later
 	return HttpResponse('this username is exist already')
 
 def add_task(request):
-	print request.user.username
 	c = {}
 	c.update(csrf(request))
 	return render_to_response('V0/add_task.html', c)
@@ -91,23 +87,60 @@ def add_task_to_tasks(request):
 	desc = request.POST['desc']
 	done = False
 
-
-	print request.user.username, title
-#	task = Task(request.user,title,desc,done)
 	task = Task(owner=request.user,title=title,desc=desc,done=done)
 	task.save()
 
 	return HttpResponseRedirect(reverse('V0:home'))
 
 
-def delete_dtask(request):
-#	print request.GET.keys() #dir(request.GET)
-#	return HttpResponse(request.POST['selected_task'])
-	return HttpResponse('delete')
+def delete_task(request):
+
+	task = Task.objects.filter(title=request.POST['selected_task'])
+	task.delete()
+	print "Done"
+	return HttpResponseRedirect(reverse('V0:home'))
 
 
 def edit_task(request):
-	return HttpResponse(selected_task)
+	task = Task.objects.get(title=request.POST['selected_task'])
+	context = {'task': task}
+	return render_to_response('V0/edit_task.html', context
+	,	context_instance=RequestContext(request))
+
+def apply_edit(request):
+	print request.POST['task_name']
+	task = Task.objects.get(title=request.POST['task_name'])
+	task.title = request.POST['title']
+	task.desc = request.POST['desc']
+	task.done = request.POST['status']
+	task.save()
+	return HttpResponseRedirect(reverse('V0:home'))
+
+
+def show_task_details(request):
+
+	task = Task.objects.get(title=request.POST['selected_task'])
+	print task.title, " - ", task.desc, " - ", task.done
+ 
+	context = {'task': task}
+
+#	if task.done:	task['done'] = "Done"
+#	else:	task['done'] = "Not done yet"
+	return render_to_response('V0/show_details.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

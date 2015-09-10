@@ -1,25 +1,27 @@
 
-<h2> HI {{ user.username  }} </h2>
-<h2> no. of tasks {{ user.tasks.all | length  }} </h2>
+<h2> Hi {{ user.username  }} </h2>
+<p>				</p>
+<p> <a href="{% url 'V0:logout' %}"> logout </a>  </p>
 
-<!--
-{% for task in user.tasks.all %}
-    <li>{{ task.title }} -- {{ task.desc }}  -- {{ task.done }} </li>
-{% endfor %}
--->
+
 
 <B> list of tasks:</B> <BR>
+<form action="" method="post">  <!--{% url 'V0:delete_task' %}-->
+{% csrf_token %}
+    <select name="selected_task" size="5">
+		{% for task in user.tasks.all %}
+			<OPTION> {{ task.title }} </OPTION>
+		{% endfor %}
 
+    </select>
 
-	<SELECT NAME="selected_item" SIZE="4" MULTIPLE >
-	{% for task in user.tasks.all %}
-		<OPTION SELECTED> {{ task.title }}
-	{% endfor %}
-	</SELECT>
+    <br>
+	<input formaction="{% url 'V0:add_task' %}" type="submit" value="Add new task">
 
-	<p>      <a href="{% url 'V0:delete_dtask' %}"> delete_task </a></p>
+	<br>
+	<input formaction="{% url 'V0:show_task_details' %}" type="submit" value="show details">
 
-	<p>Click <a href="{% url 'V0:add_task' %}"> add new task </a></p>
-	<p>Click <a href="{% url 'V0:logout' %}"> here </a> to logout </p>
+	<input formaction="{% url 'V0:delete_task' %}" type="submit" value="Delete">
+	<input formaction="{% url 'V0:edit_task' %}" type="submit" value="Edit">
 
-
+</form>
